@@ -7,6 +7,6 @@
 
 rcl_subscription_t create_subscription(rcl_node_t* node, const char* topic, const rosidl_message_type_support_t* type_support);
 int take_message(rcl_subscriber_t* subscriber, void* buffer);
-int destroy_subscription(rcl_subscription_t* subscription);
+int destroy_subscription(rcl_subscription_t* subscription, rcl_node_t* node);
 
 #endif

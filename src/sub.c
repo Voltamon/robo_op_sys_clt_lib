@@ -8,7 +8,7 @@ rcl_subscription_t create_subscription(rcl_node_t* node, const char* topic, cons
 
     rcl_ret_t ret = rcl_subscription_init(&sub, node, type_support, topic, &sub_opts);
     if (check_rcl_ret(ret, "Subscription initialization failed")) {
-        destroy_subscription(&sub);
+        destroy_subscription(&sub, node);
         return (rcl_subscription_t) {0};
     }
 

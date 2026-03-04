@@ -8,7 +8,7 @@ rcl_publisher_t create_publisher(rcl_node_t* node, const char* topic, const inte
 
     rcl_ret_t ret = rcl_publisher_init(&pub, node, type_support, topic, &pub_opts);
     if (check_rcl_ret(ret, "Publisher initiailization failed")) {
-        destroy_publisher(&pub);
+        destroy_publisher(&pub, node);
         return (rcl_publisher_t) {0};
     }
 

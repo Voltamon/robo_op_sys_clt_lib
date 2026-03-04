@@ -7,6 +7,6 @@
 
 rcl_publisher_t create_publisher(rcl_node_t* node, const char* topic, const rosidl_message_type_support_t* type_support);
 int publish_message(rcl_publisher_t* publisher, const void* message);
-int destroy_publisher(rcl_publisher_t* publisher);
+int destroy_publisher(rcl_publisher_t* publisher, rcl_node_t* node);
 
 #endif
