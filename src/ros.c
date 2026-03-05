@@ -5,8 +5,8 @@ ros_t ros_init(int argc, const char *const *argv) {
     ros.context = rcl_get_zero_initialized_context();
     ros.init_options = rcl_get_zero_initialized_init_options();
 
-    rcl_ret_t ret;
-    rcl_allocator_t alloc = rcl_get_default_allocator();
+    ret_t ret;
+    alloc_t alloc = rcl_get_default_allocator();
 
     ret = rcl_init_options_init(&ros.init_options, alloc);
     if (check_rcl_ret(ret, "RCL initialization failed")) {
@@ -29,7 +29,7 @@ int ros_free(ros_t* ros) {
         return 1;
     }
 
-    rcl_ret_t ret;
+    ret_t ret;
     uint8_t error = 0;
 
     ret = rcl_shutdown(&ros->context);

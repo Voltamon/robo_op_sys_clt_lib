@@ -1,7 +1,7 @@
 #include "rcl_utils/error.h"
 #include <stdio.h>
 
-int check_rcl_ret(rcl_ret_t code, const char* msg) {
+int check_rcl_ret(ret_t code, const char* msg) {
     if (code == RCL_RET_OK)
         return 0;
 

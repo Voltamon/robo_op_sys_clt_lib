@@ -1,21 +1,19 @@
 #include "rcl_utils/sub.h"
 
-typedef rosidl_message_type_support_t interface;
+sub_t create_subscription(node_t* node, const char* topic, const interface_t* type_support) {
+    sub_t sub = rcl_get_zero_initialized_subscription();
+    sub_opts_t sub_opts = rcl_subscription_get_default_options();
 
-rcl_subscription_t create_subscription(rcl_node_t* node, const char* topic, const interface* type_support) {
-    rcl_subscription_t sub = rcl_get_zero_initialized_subscription();
-    rcl_subscription_options_t sub_opts = rcl_subscription_get_default_options();
-
-    rcl_ret_t ret = rcl_subscription_init(&sub, node, type_support, topic, &sub_opts);
+    ret_t ret = rcl_subscription_init(&sub, node, type_support, topic, &sub_opts);
     if (check_rcl_ret(ret, "Subscription initialization failed")) {
         destroy_subscription(&sub, node);
-        return (rcl_subscription_t) {0};
+        return (sub_t) {0};
     }
 
     return sub;
 }
 
-int take_message(rcl_subscription_t* subscriber, void* buffer) {
+int take_message(sub_t* subscriber, void* buffer) {
     if (!rcl_subscription_is_valid(subscriber)) {
         fprintf(stderr, "Subscription not valid\n");
         return 1;
@@ -26,12 +24,12 @@ int take_message(rcl_subscription_t* subscriber, void* buffer) {
         return 1;
     }
 
-    rcl_ret_t ret = rcl_take(subscriber, buffer, NULL, NULL);
+    ret_t ret = rcl_take(subscriber, buffer, NULL, NULL);
     return check_rcl_ret(ret, "Taking message failed");
 }
 
-int destroy_subscription(rcl_subscription_t* subscription, rcl_node_t* node) {
-    if (subscription == NULL) {
+int destroy_subscription(sub_t* subscriber, node_t* node) {
+    if (subscriber == NULL) {
         fprintf(stderr, "Subscription is null\n");
         return 1;
     }
@@ -41,8 +39,8 @@ int destroy_subscription(rcl_subscription_t* subscription, rcl_node_t* node) {
         return 1;
     }
 
-    if (rcl_subscription_is_valid(subscription)) {
-        rcl_ret_t ret = rcl_subscription_fini(subscription, node);
+    if (rcl_subscription_is_valid(subscriber)) {
+        ret_t ret = rcl_subscription_fini(subscriber, node);
         return check_rcl_ret(ret, "Subscription cleanup failed");
     }
 

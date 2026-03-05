@@ -7,6 +7,8 @@
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
 
-int check_rcl_ret(rcl_ret_t code, const char* msg);
+typedef rcl_ret_t ret_t;
+
+int check_rcl_ret(ret_t code, const char* msg);
 
 #endif
