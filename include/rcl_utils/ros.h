@@ -14,7 +14,7 @@ typedef struct ros {
     init_opts_t init_options;
 } ros_t;
 
-ros_t ros_init(int argc, const char *const *argv);  
+ros_t ros_init(int argc, const char *const *argv);
 int ros_free(ros_t* ros);
 
 #endif
