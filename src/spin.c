@@ -4,9 +4,14 @@ static volatile int running = 1;
 static guard_t* term_g = NULL;
 
 static void signal_handler(int sig) {
+    (void) sig;
     running = 0;
-    if(term_g != NULL)
-        rcl_trigger_guard_condition(term_g);
+
+    if(term_g != NULL) {
+        ret_t ret = rcl_trigger_guard_condition(term_g);
+        if (check_rcl_ret(ret, "Guard failed to trigger"))
+            return 1;
+    }
 }
 
 int is_running() {
@@ -68,34 +73,53 @@ spin_t create_spinner(node_t* node, void*** entities, size_t* capacities) {
 }
 
 int spin_node(spin_t* spinner) {
+    ret_t ret;
+
     if (spinner == NULL) {
         fprintf(stderr, "Spinner is null\n");
         return 1;
     }
 
-    rcl_wait_set_clear(&spinner->spinner);
-    rcl_wait_set_add_timer(&spinner->spinner, spinner->timer, NULL);
-    rcl_wait_set_add_guard_condition(&spinner->spinner, spinner->guard, NULL);
+    ret = rcl_wait_set_clear(&spinner->spinner);
+    if (check_rcl_ret(ret, "Wait_set clear failed"))
+        return 1;
+
+    ret = rcl_wait_set_add_timer(&spinner->spinner, spinner->timer, NULL);
+    if (check_rcl_ret(ret, "Wait_set add timer failed"))
+        return 1;
+
+    ret = rcl_wait_set_add_guard_condition(&spinner->spinner, spinner->guard, NULL);
+    if (check_rcl_ret(ret, "Wait_set add guard condition failed"))
+        return 1;
 
     if (spinner->capacities[0] > 0 && spinner->entities[0] != NULL) {
         sub_t** subs = (sub_t**) spinner->entities[0];
-        for(size_t i = 0; i < spinner->capacities[0]; i++)
-            rcl_wait_set_add_subscription(&spinner->spinner, subs[i], NULL);
+        for(size_t i = 0; i < spinner->capacities[0]; i++) {
+            ret = rcl_wait_set_add_subscription(&spinner->spinner, subs[i], NULL);
+            if (check_rcl_ret(ret, "Wait_set add subscription failed"))
+                return 1;
+        }
     }
 
     if (spinner->capacities[1] > 0 && spinner->entities[1] != NULL) {
         clt_t** clients = (clt_t**) spinner->entities[1];
-        for(size_t i = 0; i < spinner->capacities[1]; i++)
-            rcl_wait_set_add_client(&spinner->spinner, clients[i], NULL);
+        for(size_t i = 0; i < spinner->capacities[1]; i++) {
+            ret = rcl_wait_set_add_client(&spinner->spinner, clients[i], NULL);
+            if (check_rcl_ret(ret, "Wait_set add client failed"))
+                return 1;
+        }
     }
 
     if (spinner->capacities[2] > 0 && spinner->entities[2] != NULL) {
         srv_t** servers = (srv_t**) spinner->entities[2];
-        for(size_t i = 0; i < spinner->capacities[2]; i++)
-            rcl_wait_set_add_service(&spinner->spinner, servers[i], NULL);
+        for(size_t i = 0; i < spinner->capacities[2]; i++) {
+            ret = rcl_wait_set_add_service(&spinner->spinner, servers[i], NULL);
+            if (check_rcl_ret(ret, "Wait_set add service failed"))
+                return 1;
+        }
     }
 
-    ret_t ret = rcl_wait(&spinner->spinner, -1);
+    ret = rcl_wait(&spinner->spinner, -1);
     if (check_rcl_ret(ret, "Wait_set failed"))
         return 1;
 

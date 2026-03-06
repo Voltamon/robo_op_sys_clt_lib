@@ -10,14 +10,11 @@
 
 int main(int argc, const char *const *argv) {
     ros_t ros = ros_init(argc, argv);
-    if (ros.context.impl == NULL) {
-        printf("ERROR: Failed to init ROS context.\n");
+    if (ros.context.impl == NULL)
         return 1;
-    }
 
     rcl_node_t node = create_node("base_node_impl", &ros.context);
     if (node.impl == NULL) {
-        printf("ERROR: Failed to create node.\n");
         ros_free(&ros);
         return 1;
     }
@@ -26,7 +23,6 @@ int main(int argc, const char *const *argv) {
 
     pub_t pub = create_publisher(&node, "/test", type);
     if (pub.impl == NULL) {
-        printf("ERROR: Failed to create publisher.\n");
         destroy_node(&node);
         ros_free(&ros);
         return 1;
@@ -34,7 +30,6 @@ int main(int argc, const char *const *argv) {
 
     sub_t sub = create_subscription(&node, "/test", type);
     if (sub.impl == NULL) {
-        printf("ERROR: Failed to create subscriber.\n");
         destroy_publisher(&pub, &node);
         destroy_node(&node);
         ros_free(&ros);
@@ -47,7 +42,6 @@ int main(int argc, const char *const *argv) {
 
     spin_t spinner = create_spinner(&node, entities, capacities);
     if (spinner.timer == NULL) {
-        printf("ERROR: Failed to create spinner.\n");
         destroy_publisher(&pub, &node);
         destroy_subscription(&sub, &node);
         destroy_node(&node);
@@ -61,9 +55,6 @@ int main(int argc, const char *const *argv) {
 
     int count = 0;
 
-    printf("Node initialized successfully! Spinning up...\n");
-    fflush(stdout);
-
     while(rcl_context_is_valid(&ros.context) && is_running()) {
         int status = spin_node(&spinner);
 
@@ -72,7 +63,7 @@ int main(int argc, const char *const *argv) {
                 rcl_timer_call(spinner.timer);
 
                 char buffer[50];
-                snprintf(buffer, sizeof(buffer), "Pure C Ping: %d", count++);
+                snprintf(buffer, sizeof(buffer), "%d", count++);
                 rosidl_runtime_c__String__assign(&pub_msg.data, buffer);
 
                 publish_message(&pub, &pub_msg);
@@ -82,14 +73,13 @@ int main(int argc, const char *const *argv) {
 
             if (spinner.spinner.subscriptions[0] != NULL) {
                 if (take_message(&sub, &sub_msg) == 0) {
-                    printf("  -> [Received]: %s\n", sub_msg.data.data);
+                    printf("[Received]: %s\n\n", sub_msg.data.data);
                     fflush(stdout);
                 }
             }
         }
     }
 
-    printf("\nShutting down cleanly...\n");
     std_msgs__msg__String__fini(&pub_msg);
     std_msgs__msg__String__fini(&sub_msg);
 
