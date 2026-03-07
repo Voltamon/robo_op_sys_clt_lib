@@ -1,0 +1,23 @@
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/main.c:[m[K In function ‘[01m[Kmain[m[K’:
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/main.c:63:17:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Krcl_timer_call[m[K’ declared with attribute ‘[01m[Kwarn_unused_result[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-result-Wunused-result]8;;[m[K]
+   63 |                 [01;35m[Krcl_timer_call(spinner.timer)[m[K;
+      |                 [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/spin.c:[m[K In function ‘[01m[Ksignal_handler[m[K’:
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/spin.c:13:20:[m[K [01;35m[Kwarning: [m[K‘[01m[Kreturn[m[K’ with a value, in function returning void [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreturn-type-Wreturn-type]8;;[m[K]
+   13 |             return [01;35m[K1[m[K;
+      |                    [01;35m[K^[m[K
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/spin.c:6:13:[m[K [01;36m[Knote: [m[Kdeclared here
+    6 | static void [01;36m[Ksignal_handler[m[K(int sig) {
+      |             [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/spin.c:[m[K In function ‘[01m[Kcreate_spinner[m[K’:
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/spin.c:54:5:[m[K [01;35m[Kwarning: [m[K‘[01m[Krcl_timer_init[m[K’ is deprecated: Call rcl_timer_init2 instead [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-declarations-Wdeprecated-declarations]8;;[m[K]
+   54 |     [01;35m[Kret[m[K = rcl_timer_init(spinner.timer, spinner.clock, ctx, RCL_MS_TO_NS(1000), NULL, alloc);
+      |     [01;35m[K^~~[m[K
+In file included from [01m[K/opt/ros/jazzy/include/rcl/rcl/wait.h:33[m[K,
+                 from [01m[K/opt/ros/jazzy/include/rcl/rcl/rcl.h:80[m[K,
+                 from [01m[K/home/voltamon48/ros_test/src/rcl_utils/include/rcl_utils/error.h:7[m[K,
+                 from [01m[K/home/voltamon48/ros_test/src/rcl_utils/include/rcl_utils/spin.h:4[m[K,
+                 from [01m[K/home/voltamon48/ros_test/src/rcl_utils/src/spin.c:1[m[K:
+[01m[K/opt/ros/jazzy/include/rcl/rcl/timer.h:188:1:[m[K [01;36m[Knote: [m[Kdeclared here
+  188 | [01;36m[Krcl_timer_init[m[K(
+      | [01;36m[K^~~~~~~~~~~~~~[m[K

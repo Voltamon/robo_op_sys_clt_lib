@@ -1,0 +1,21 @@
+[ 10%] [32mBuilding C object CMakeFiles/node_impl.dir/src/server.c.o[0m
+[ 20%] [32m[1mLinking C executable node_impl[0m
+[100%] Built target node_impl
+-- Install configuration: ""
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/lib/rcl_utils/node_impl
+-- Set non-toolchain portion of runtime path of "/home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/lib/rcl_utils/node_impl" to ""
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/ament_index/resource_index/package_run_dependencies/rcl_utils
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/ament_index/resource_index/parent_prefix_path/rcl_utils
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/environment/ament_prefix_path.sh
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/environment/ament_prefix_path.dsv
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/environment/path.sh
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/environment/path.dsv
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/local_setup.bash
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/local_setup.sh
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/local_setup.zsh
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/local_setup.dsv
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/package.dsv
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/ament_index/resource_index/packages/rcl_utils
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/cmake/rcl_utilsConfig.cmake
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/cmake/rcl_utilsConfig-version.cmake
+-- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/package.xml

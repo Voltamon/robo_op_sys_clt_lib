@@ -1,0 +1,25 @@
+[0.009s] Invoking command in '/home/voltamon48/ros_test/src/rcl_utils/build/rcl_utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/voltamon48/ros_test/src/rcl_utils/build/rcl_utils -- -j8 -l8
+[0.064s] [ 10%] [32mBuilding C object CMakeFiles/node_impl.dir/src/server.c.o[0m
+[0.129s] [ 20%] [32m[1mLinking C executable node_impl[0m
+[0.246s] [100%] Built target node_impl
+[0.255s] Invoked command in '/home/voltamon48/ros_test/src/rcl_utils/build/rcl_utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/voltamon48/ros_test/src/rcl_utils/build/rcl_utils -- -j8 -l8
+[0.263s] Invoking command in '/home/voltamon48/ros_test/src/rcl_utils/build/rcl_utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/voltamon48/ros_test/src/rcl_utils/build/rcl_utils
+[0.270s] -- Install configuration: ""
+[0.271s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/lib/rcl_utils/node_impl
+[0.271s] -- Set non-toolchain portion of runtime path of "/home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/lib/rcl_utils/node_impl" to ""
+[0.271s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/ament_index/resource_index/package_run_dependencies/rcl_utils
+[0.271s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/ament_index/resource_index/parent_prefix_path/rcl_utils
+[0.271s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/environment/ament_prefix_path.sh
+[0.271s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/environment/ament_prefix_path.dsv
+[0.271s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/environment/path.sh
+[0.272s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/environment/path.dsv
+[0.272s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/local_setup.bash
+[0.272s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/local_setup.sh
+[0.272s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/local_setup.zsh
+[0.272s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/local_setup.dsv
+[0.272s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/package.dsv
+[0.273s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/ament_index/resource_index/packages/rcl_utils
+[0.273s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/cmake/rcl_utilsConfig.cmake
+[0.273s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/cmake/rcl_utilsConfig-version.cmake
+[0.273s] -- Installing: /home/voltamon48/ros_test/src/rcl_utils/install/rcl_utils/share/rcl_utils/package.xml
+[0.275s] Invoked command in '/home/voltamon48/ros_test/src/rcl_utils/build/rcl_utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/voltamon48/ros_test/src/rcl_utils/build/rcl_utils

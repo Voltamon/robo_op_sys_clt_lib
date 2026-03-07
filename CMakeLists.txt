@@ -20,6 +20,8 @@ add_executable(node_impl
   src/pub.c
   src/sub.c
   src/spin.c
+  src/server.c
+  src/client.c
 )
 
 ament_target_dependencies(node_impl

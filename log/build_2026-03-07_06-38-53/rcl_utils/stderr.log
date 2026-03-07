@@ -1,0 +1,45 @@
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/server.c:[m[K In function ‘[01m[Kcreate_service[m[K’:
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/server.c:5:27:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function ‘[01m[Krcl_get_zero_initialized_srv_opts[m[K’; did you mean ‘[01m[Krcl_get_zero_initialized_event[m[K’? [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wimplicit-function-declaration-Wimplicit-function-declaration]8;;[m[K]
+    5 |     srv_opts_t srv_opts = [01;35m[Krcl_get_zero_initialized_srv_opts[m[K();
+      |                           [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+      |                           [32m[Krcl_get_zero_initialized_event[m[K
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/server.c:5:27:[m[K [01;31m[Kerror: [m[Kinvalid initializer
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/client.c:[m[K In function ‘[01m[Kcreate_client[m[K’:
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/client.c:5:27:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function ‘[01m[Krcl_get_zero_initialized_client_options[m[K’; did you mean ‘[01m[Krcl_get_zero_initialized_init_options[m[K’? [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wimplicit-function-declaration-Wimplicit-function-declaration]8;;[m[K]
+    5 |     clt_opts_t clt_opts = [01;35m[Krcl_get_zero_initialized_client_options[m[K();
+      |                           [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+      |                           [32m[Krcl_get_zero_initialized_init_options[m[K
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/client.c:5:27:[m[K [01;31m[Kerror: [m[Kinvalid initializer
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/client.c:7:45:[m[K [01;35m[Kwarning: [m[Kpassing argument 3 of ‘[01m[Krcl_client_init[m[K’ from incompatible pointer type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wincompatible-pointer-types-Wincompatible-pointer-types]8;;[m[K]
+    7 |     ret_t ret = rcl_client_init(&clt, node, [01;35m[Kservice_name[m[K, interface, &clt_opts);
+      |                                             [01;35m[K^~~~~~~~~~~~[m[K
+      |                                             [01;35m[K|[m[K
+      |                                             [01;35m[Kconst char *[m[K
+In file included from [01m[K/opt/ros/jazzy/include/rcl/rcl/wait.h:28[m[K,
+                 from [01m[K/opt/ros/jazzy/include/rcl/rcl/rcl.h:80[m[K,
+                 from [01m[K/home/voltamon48/ros_test/src/rcl_utils/include/rcl_utils/client.h:4[m[K,
+                 from [01m[K/home/voltamon48/ros_test/src/rcl_utils/src/client.c:1[m[K:
+[01m[K/opt/ros/jazzy/include/rcl/rcl/client.h:168:41:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kconst rosidl_service_type_support_t *[m[K’ but argument is of type ‘[01m[Kconst char *[m[K’
+  168 |   [01;36m[Kconst rosidl_service_type_support_t * type_support[m[K,
+      |   [01;36m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~[m[K
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/client.c:7:59:[m[K [01;35m[Kwarning: [m[Kpassing argument 4 of ‘[01m[Krcl_client_init[m[K’ from incompatible pointer type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wincompatible-pointer-types-Wincompatible-pointer-types]8;;[m[K]
+    7 |     ret_t ret = rcl_client_init(&clt, node, service_name, [01;35m[Kinterface[m[K, &clt_opts);
+      |                                                           [01;35m[K^~~~~~~~~[m[K
+      |                                                           [01;35m[K|[m[K
+      |                                                           [01;35m[Kconst clt_interface_t * {aka const rosidl_service_type_support_t *}[m[K
+[01m[K/opt/ros/jazzy/include/rcl/rcl/client.h:169:16:[m[K [01;36m[Knote: [m[Kexpected ‘[01m[Kconst char *[m[K’ but argument is of type ‘[01m[Kconst clt_interface_t *[m[K’ {aka ‘[01m[Kconst rosidl_service_type_support_t *[m[K’}
+  169 |   [01;36m[Kconst char * service_name[m[K,
+      |   [01;36m[K~~~~~~~~~~~~~^~~~~~~~~~~~[m[K
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/client.c:[m[K In function ‘[01m[Ksend_request[m[K’:
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/client.c:20:44:[m[K [01;35m[Kwarning: [m[Kordered comparison of pointer with integer zero [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wpedantic-Wpedantic]8;;[m[K]
+   20 |     if (request == NULL || sequence_number [01;35m[K<[m[K 0) {
+      |                                            [01;35m[K^[m[K
+[01m[K/home/voltamon48/ros_test/src/rcl_utils/src/server.c:7:17:[m[K [01;35m[Kwarning: [m[Kimplicit declaration of function ‘[01m[Krcl_create_service[m[K’; did you mean ‘[01m[Krmw_create_service[m[K’? [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wimplicit-function-declaration-Wimplicit-function-declaration]8;;[m[K]
+    7 |     ret_t ret = [01;35m[Krcl_create_service[m[K(&srv, node, type_support, service_name, &srv_opts);
+      |                 [01;35m[K^~~~~~~~~~~~~~~~~~[m[K
+      |                 [32m[Krmw_create_service[m[K
+gmake[2]: *** [CMakeFiles/node_impl.dir/build.make:188: CMakeFiles/node_impl.dir/src/client.c.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[2]: *** [CMakeFiles/node_impl.dir/build.make:174: CMakeFiles/node_impl.dir/src/server.c.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/node_impl.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2
