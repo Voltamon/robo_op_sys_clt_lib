@@ -8,6 +8,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rcl REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 find_package(rosidl_runtime_c REQUIRED)
 
 include_directories(include)
@@ -27,6 +28,7 @@ add_executable(node_impl
 ament_target_dependencies(node_impl
   rcl
   std_msgs
+  std_srvs
   rosidl_runtime_c
 )
 

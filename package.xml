@@ -11,6 +11,7 @@
 
   <depend>rcl</depend>
   <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
   <depend>rosidl_runtime_c</depend>
 
   <test_depend>ament_lint_auto</test_depend>
