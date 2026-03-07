@@ -14,7 +14,7 @@ find_package(rosidl_runtime_c REQUIRED)
 include_directories(include)
 
 add_executable(node_impl
-  src/main.c
+  main.c
   src/ros.c
   src/node.c
   src/error.c

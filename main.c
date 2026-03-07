@@ -25,14 +25,14 @@ int main(int argc, const char *const *argv) {
     const rosidl_message_type_support_t* msg_type = ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
     const rosidl_service_type_support_t* srv_type = ROSIDL_GET_SRV_TYPE_SUPPORT(std_srvs, srv, Trigger);
 
-    pub_t pub = create_publisher(&node, "/test", msg_type);
+    pub_t pub = create_publisher(&node, "/count", msg_type);
     if (pub.impl == NULL) {
         destroy_node(&node);
         ros_free(&ros);
         return 1;
     }
 
-    sub_t sub = create_subscription(&node, "/test", msg_type);
+    sub_t sub = create_subscription(&node, "/count", msg_type);
     if (sub.impl == NULL) {
         destroy_publisher(&pub, &node);
 
@@ -51,14 +51,8 @@ int main(int argc, const char *const *argv) {
         return 1;
     }
 
-    sub_t* subs[] = {&sub};
-    srv_t* srvs[] = {&srv};
-
-    void** entities[3] = {(void**) subs, NULL, (void**) srvs};
-    size_t capacities[3] = {1, 0, 1};
-
-    spin_t spinner = create_spinner(&node, entities, capacities);
-    if (spinner.timer == NULL) {
+    clt_t clt = create_client(&node, "/reset", srv_type);
+    if (clt.impl == NULL) {
         destroy_publisher(&pub, &node);
         destroy_subscription(&sub, &node);
 
@@ -69,14 +63,39 @@ int main(int argc, const char *const *argv) {
         return 1;
     }
 
+    sub_t* subs[] = {&sub};
+    srv_t* srvs[] = {&srv};
+    clt_t* clts[] = {&clt};
+
+    void** entities[3] = {(void**) subs, (void**) clts, (void**) srvs};
+    size_t capacities[3] = {1, 1, 1};
+
+    spin_t spinner = create_spinner(&node, entities, capacities);
+    if (spinner.timer == NULL) {
+        destroy_publisher(&pub, &node);
+        destroy_subscription(&sub, &node);
+
+        destroy_service(&srv, &node);
+        destroy_client(&clt, &node);
+
+        destroy_node(&node);
+        ros_free(&ros);
+        return 1;
+    }
+
     std_msgs__msg__String pub_msg, sub_msg;
     std_msgs__msg__String__init(&pub_msg);
     std_msgs__msg__String__init(&sub_msg);
 
-    std_srvs__srv__Trigger_Request req;
-    std_srvs__srv__Trigger_Response res;
-    std_srvs__srv__Trigger_Request__init(&req);
-    std_srvs__srv__Trigger_Response__init(&res);
+    std_srvs__srv__Trigger_Request srv_req;
+    std_srvs__srv__Trigger_Response srv_res;
+    std_srvs__srv__Trigger_Request__init(&srv_req);
+    std_srvs__srv__Trigger_Response__init(&srv_res);
+
+    std_srvs__srv__Trigger_Request clt_req;
+    std_srvs__srv__Trigger_Response clt_res;
+    std_srvs__srv__Trigger_Request__init(&clt_req);
+    std_srvs__srv__Trigger_Response__init(&clt_res);
 
     int count = 0;
 
@@ -89,18 +108,23 @@ int main(int argc, const char *const *argv) {
         if (spinner.spinner.timers[0]) {
             rcl_timer_call(spinner.timer);
 
+            if (count == 10) {
+                int64_t seq_num;
+                send_request(&clt, &clt_req, &seq_num);
+            }
+
             char buffer[50];
             snprintf(buffer, sizeof(buffer), "%d", count++);
             rosidl_runtime_c__String__assign(&pub_msg.data, buffer);
 
             publish_message(&pub, &pub_msg);
-            printf("[Published]: %s\n", pub_msg.data.data);
+            fprintf(stdout, "\n-> %s\n", pub_msg.data.data);
             fflush(stdout);
         }
 
         if (spinner.spinner.subscriptions[0]) {
             if (take_message(&sub, &sub_msg) == 0) {
-                printf("[Received]: %s\n\n", sub_msg.data.data);
+                fprintf(stdout, "\n<- %s\n", sub_msg.data.data);
                 fflush(stdout);
             }
         }
@@ -108,25 +132,41 @@ int main(int argc, const char *const *argv) {
         if (spinner.spinner.services[0]) {
             rmw_request_id_t req_id;
 
-            if (!take_request(&srv, &req_id, &req)) {
-                count = 0;
-                res.success = true;
+            if (!take_request(&srv, &req_id, &srv_req)) {
+                count = 1;
+                srv_res.success = true;
 
-                rosidl_runtime_c__String__assign(&res.message, "Counter reset successfully");
-                send_response(&srv, &req_id, &res);
+                rosidl_runtime_c__String__assign(&srv_res.message, "\n< - >\n");
+                send_response(&srv, &req_id, &srv_res);
+            }
+        }
+
+        if (spinner.spinner.clients[0]) {
+            rmw_request_id_t req_id;
+
+            if (!take_response(&clt, &req_id, &clt_res)) {
+                fprintf(clt_res.success ? stdout : stderr, "%s\n", clt_res.message.data);
+                fflush(stdout);
             }
         }
     }
 
     std_msgs__msg__String__fini(&pub_msg);
     std_msgs__msg__String__fini(&sub_msg);
-    std_srvs__srv__Trigger_Request__fini(&req);
-    std_srvs__srv__Trigger_Response__fini(&res);
+
+    std_srvs__srv__Trigger_Request__fini(&srv_req);
+    std_srvs__srv__Trigger_Response__fini(&srv_res);
+
+    std_srvs__srv__Trigger_Request__fini(&clt_req);
+    std_srvs__srv__Trigger_Response__fini(&clt_res);
 
     destroy_spinner(&spinner);
     destroy_publisher(&pub, &node);
     destroy_subscription(&sub, &node);
+
     destroy_service(&srv, &node);
+    destroy_client(&clt, &node);
+
     destroy_node(&node);
     ros_free(&ros);
     return 0;
