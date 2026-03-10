@@ -93,10 +93,10 @@ CJSON_PUBLIC(cJSON *) cjson_parse_with_length(const char *value, size_t buffer_l
 CJSON_PUBLIC(cJSON *) cjson_parse_with_opts(const char *value, const char **return_parse_end, cJSON_bool require_null_terminated);
 CJSON_PUBLIC(cJSON *) cjson_parse_with_length_opts(const char *value, size_t buffer_length, const char **return_parse_end, cJSON_bool require_null_terminated);
 
-CJSON_PUBLIC(char *) cjson_print(const cJSON *item);
-CJSON_PUBLIC(char *) cjson_print_unformatted(const cJSON *item);
-CJSON_PUBLIC(char *) cjson_print_buffered(const cJSON *item, int prebuffer, cJSON_bool fmt);
-CJSON_PUBLIC(cJSON_bool) cjson_print_preallocated(cJSON *item, char *buffer, const int length, const cJSON_bool format);
+CJSON_PUBLIC(char *) cJSON_Print(const cJSON *item);
+CJSON_PUBLIC(char *) cJSON_PrintUnformatted(const cJSON *item);
+CJSON_PUBLIC(char *) cJSON_PrintBuffered(const cJSON *item, int prebuffer, cJSON_bool fmt);
+CJSON_PUBLIC(cJSON_bool) cJSON_PrintPreallocated(cJSON *item, char *buffer, const int length, const cJSON_bool format);
 
 CJSON_PUBLIC(void) cjson_delete(cJSON *item);
 
@@ -133,20 +133,20 @@ CJSON_PUBLIC(cJSON *) cjson_create_raw(const char *raw);
 CJSON_PUBLIC(cJSON *) cjson_create_array(void);
 CJSON_PUBLIC(cJSON *) cjson_create_object(void);
 
-CJSON_PUBLIC(cJSON *) cjson_create_string_reference(const char *string);
-CJSON_PUBLIC(cJSON *) cjson_create_object_reference(const cJSON *child);
-CJSON_PUBLIC(cJSON *) cjson_create_array_reference(const cJSON *child);
+CJSON_PUBLIC(cJSON *) cJSON_CreateStringReference(const char *string);
+CJSON_PUBLIC(cJSON *) cJSON_CreateObjectReference(const cJSON *child);
+CJSON_PUBLIC(cJSON *) cJSON_CreateArrayReference(const cJSON *child);
 
 CJSON_PUBLIC(cJSON *) cjson_create_int_array(const int *numbers, int count);
 CJSON_PUBLIC(cJSON *) cjson_create_float_array(const float *numbers, int count);
 CJSON_PUBLIC(cJSON *) cjson_create_double_array(const double *numbers, int count);
 CJSON_PUBLIC(cJSON *) cjson_create_string_array(const char *const *strings, int count);
 
-CJSON_PUBLIC(cJSON_bool) cjson_add_item_to_array(cJSON *array, cJSON *item);
-CJSON_PUBLIC(cJSON_bool) cjson_add_item_to_object(cJSON *object, const char *string, cJSON *item);
-CJSON_PUBLIC(cJSON_bool) cjson_add_item_to_object_cs(cJSON *object, const char *string, cJSON *item);
-CJSON_PUBLIC(cJSON_bool) cjson_add_item_reference_to_array(cJSON *array, cJSON *item);
-CJSON_PUBLIC(cJSON_bool) cjson_add_item_reference_to_object(cJSON *object, const char *string, cJSON *item);
+CJSON_PUBLIC(cJSON_bool) cJSON_AddItemToArray(cJSON *array, cJSON *item);
+CJSON_PUBLIC(cJSON_bool) cJSON_AddItemToObject(cJSON *object, const char *string, cJSON *item);
+CJSON_PUBLIC(cJSON_bool) cJSON_AddItemToObjectCS(cJSON *object, const char *string, cJSON *item);
+CJSON_PUBLIC(cJSON_bool) cJSON_AddItemReferenceToArray(cJSON *array, cJSON *item);
+CJSON_PUBLIC(cJSON_bool) cJSON_AddItemReferenceToObject(cJSON *object, const char *string, cJSON *item);
 
 CJSON_PUBLIC(cJSON *) cjson_detach_item_via_pointer(cJSON *parent, cJSON * const item);
 CJSON_PUBLIC(cJSON *) cjson_detach_item_from_array(cJSON *array, int which);
@@ -176,16 +176,16 @@ CJSON_PUBLIC(cJSON*) cjson_add_raw_to_object(cJSON * const object, const char * 
 CJSON_PUBLIC(cJSON*) cjson_add_object_to_object(cJSON * const object, const char * const name);
 CJSON_PUBLIC(cJSON*) cjson_add_array_to_object(cJSON * const object, const char * const name);
 
-#define cjson_set_int_value(object, number) ((object) ? (object)->valueint = (object)->valuedouble = (number) : (number))
+#define cJSON_SetIntValue(object, number) ((object) ? (object)->valueint = (object)->valuedouble = (number) : (number))
 CJSON_PUBLIC(double) cjson_set_number_helper(cJSON *object, double number);
-#define cjson_set_number_value(object, number) ((object != NULL) ? cjson_set_number_helper(object, (double)number) : (number))
+#define cJSON_SetNumberValue(object, number) ((object != NULL) ? cjson_set_number_helper(object, (double)number) : (number))
 CJSON_PUBLIC(char*) cjson_set_valuestring(cJSON *object, const char *valuestring);
-#define cjson_set_bool_value(object, boolValue) ( \
+#define cJSON_SetBoolValue(object, boolValue) ( \
     (object != NULL && ((object)->type & (cJSON_False|cJSON_True))) ? \
     (object)->type=((object)->type &(~(cJSON_False|cJSON_True)))|((boolValue)?cJSON_True:cJSON_False) : \
     cJSON_Invalid\
 )
-#define cjson_array_for_each(element, array) for(element = (array != NULL) ? (array)->child : NULL; element != NULL; element = element->next)
+#define cJSON_ArrayForEach(element, array) for(element = (array != NULL) ? (array)->child : NULL; element != NULL; element = element->next)
 CJSON_PUBLIC(void *) cjson_malloc(size_t size);
 CJSON_PUBLIC(void) cjson_free(void *object);
 
