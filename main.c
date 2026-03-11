@@ -87,9 +87,21 @@ int main(int argc, const char *const *argv) {
         return 1;
     }
 
-    std_msgs__msg__String pub_msg, sub_msg;
-    std_msgs__msg__String__init(&pub_msg);
-    std_msgs__msg__String__init(&sub_msg);
+    typedef struct {
+      double count;
+      char* status;
+    } msg_t;
+
+    field_map_t fields[] = {
+      { "count", NUM, offsetof(msg_t, count) },
+      { "status", STR, offsetof(msg_t, status) },
+    };
+    size_t num_fields = 2;
+
+    interface_t pub_msg, sub_msg;
+    interface_type_t msg_type = create_interface(sizeof(msg_t), fields, num_fields);
+    interface_init(&pub_msg);
+    interface_init(&sub_msg);
 
     std_srvs__srv__Trigger_Request srv_req;
     std_srvs__srv__Trigger_Response srv_res;
@@ -117,9 +129,8 @@ int main(int argc, const char *const *argv) {
                 send_request(&clt, &clt_req, &seq_num);
             }
 
-            char buffer[50];
-            snprintf(buffer, sizeof(buffer), "%d", count++);
-            rosidl_runtime_c__String__assign(&pub_msg.data, buffer);
+            msg_t msg = { .count = count, .status = "SUCCESS" };
+            pub_msg = serialize_interface(&msg, &msg_type);
 
             publish_message(&pub, &pub_msg);
             fprintf(stdout, "\n-> %s\n", pub_msg.data.data);
@@ -128,8 +139,9 @@ int main(int argc, const char *const *argv) {
 
         if (spinner.spinner.subscriptions[0]) {
             if (take_message(&sub, &sub_msg) == 0) {
-                fprintf(stdout, "\n<- %s\n", sub_msg.data.data);
-                fflush(stdout);
+              msg_t msg = deserialize_interface(&sub_msg, &msg_type);
+              fprintf(stdout, "\n<- %s\n", msg.count);
+              fflush(stdout);
             }
         }
 

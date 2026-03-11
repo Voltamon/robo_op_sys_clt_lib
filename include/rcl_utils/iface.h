@@ -2,6 +2,7 @@
 #define RCL_UTILS_IFACE_H
 
 #include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 
 #include <rcl/rcl.h>
