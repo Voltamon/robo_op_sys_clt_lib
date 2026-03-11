@@ -15,15 +15,20 @@ include_directories(include)
 
 add_executable(node_impl
   main.c
+
   src/ros.c
   src/node.c
   src/error.c
+
   src/pub.c
   src/sub.c
-  src/spin.c
+
   src/server.c
   src/client.c
+
+  src/spin.c
   src/iface.c
+  src/cjson.c
 )
 
 ament_target_dependencies(node_impl

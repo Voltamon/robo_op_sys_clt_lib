@@ -26,7 +26,7 @@ int main(int argc, const char *const *argv) {
         return 1;
     }
 
-    const rosidl_message_type_support_t* msg_type = ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
+    const type_t* msg_type = ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
     const rosidl_service_type_support_t* srv_type = ROSIDL_GET_SRV_TYPE_SUPPORT(std_srvs, srv, Trigger);
 
     pub_t pub = create_publisher(&node, "/count", msg_type);
@@ -89,17 +89,17 @@ int main(int argc, const char *const *argv) {
 
     typedef struct {
       double count;
-      char* status;
     } msg_t;
 
     field_map_t fields[] = {
-      { "count", NUM, offsetof(msg_t, count) },
-      { "status", STR, offsetof(msg_t, status) },
+      { "count", NUM, offsetof(msg_t, count), sizeof(double) },
     };
+
+    int count = 0;
     size_t num_fields = 2;
 
     interface_t pub_msg, sub_msg;
-    interface_type_t msg_type = create_interface(sizeof(msg_t), fields, num_fields);
+    interface_type_t iface_type = create_interface(sizeof(msg_t), fields, num_fields);
     interface_init(&pub_msg);
     interface_init(&sub_msg);
 
@@ -113,7 +113,6 @@ int main(int argc, const char *const *argv) {
     std_srvs__srv__Trigger_Request__init(&clt_req);
     std_srvs__srv__Trigger_Response__init(&clt_res);
 
-    int count = 0;
 
     while(rcl_context_is_valid(&ros.context) && is_running()) {
         int status = spin_node(&spinner);
@@ -123,25 +122,31 @@ int main(int argc, const char *const *argv) {
 
         if (spinner.spinner.timers[0]) {
             rcl_timer_call(spinner.timer);
+            count++;
 
             if (count == 10) {
                 int64_t seq_num;
                 send_request(&clt, &clt_req, &seq_num);
             }
 
-            msg_t msg = { .count = count, .status = "SUCCESS" };
-            pub_msg = serialize_interface(&msg, &msg_type);
+            msg_t* msg = (msg_t*)malloc(sizeof(msg_t));
+            msg->count = count;
+            pub_msg = serialize_interface(msg, &iface_type);
 
             publish_message(&pub, &pub_msg);
-            fprintf(stdout, "\n-> %s\n", pub_msg.data.data);
+            fprintf(stdout, "\n-> %d\n", (int)msg->count);
+
             fflush(stdout);
+            free(msg);
         }
 
         if (spinner.spinner.subscriptions[0]) {
             if (take_message(&sub, &sub_msg) == 0) {
-              msg_t msg = deserialize_interface(&sub_msg, &msg_type);
-              fprintf(stdout, "\n<- %s\n", msg.count);
+              msg_t* msg = (msg_t*)deserialize_interface(&sub_msg, &iface_type);
+              fprintf(stdout, "\n<- %d\n", (int)msg->count);
+
               fflush(stdout);
+              free(msg);
             }
         }
 
@@ -149,10 +154,10 @@ int main(int argc, const char *const *argv) {
             rmw_request_id_t req_id;
 
             if (!take_request(&srv, &req_id, &srv_req)) {
-                count = 1;
+                count = 0;
                 srv_res.success = true;
 
-                rosidl_runtime_c__String__assign(&srv_res.message, "\n< - >\n");
+                rosidl_runtime_c__String__assign(&srv_res.message, "\n< - >");
                 send_response(&srv, &req_id, &srv_res);
             }
         }
@@ -167,8 +172,8 @@ int main(int argc, const char *const *argv) {
         }
     }
 
-    interface_t_fini(&pub_msg);
-    interface_t_fini(&sub_msg);
+    interface_fini(&pub_msg);
+    interface_fini(&sub_msg);
 
     std_srvs__srv__Trigger_Request__fini(&srv_req);
     std_srvs__srv__Trigger_Response__fini(&srv_res);

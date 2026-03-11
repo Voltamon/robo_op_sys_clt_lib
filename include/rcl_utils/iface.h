@@ -7,6 +7,7 @@
 
 #include <rcl/rcl.h>
 #include "rcl_utils/cjson.h"
+#include "rcl_utils/error.h"
 
 #include <std_msgs/msg/string.h>
 #include <rosidl_runtime_c/string_functions.h>
@@ -20,11 +21,11 @@ typedef enum {
     NUM,
     BOOL,
     STR,
-} type_t;
+} field_type_t;
 
 typedef struct field_map {
     const char* name;
-    type_t type;
+    field_type_t type;
     size_t offset;
     size_t size;
 } field_map_t;

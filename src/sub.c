@@ -1,6 +1,6 @@
 #include "rcl_utils/sub.h"
 
-sub_t create_subscription(node_t* node, const char* topic, const interface_t* type_support) {
+sub_t create_subscription(node_t* node, const char* topic, const type_t* type_support) {
     sub_t sub = rcl_get_zero_initialized_subscription();
     sub_opts_t sub_opts = rcl_subscription_get_default_options();
 
