@@ -23,6 +23,7 @@ add_executable(node_impl
   src/spin.c
   src/server.c
   src/client.c
+  src/iface.c
 )
 
 ament_target_dependencies(node_impl
