@@ -167,8 +167,8 @@ int main(int argc, const char *const *argv) {
         }
     }
 
-    std_msgs__msg__String__fini(&pub_msg);
-    std_msgs__msg__String__fini(&sub_msg);
+    interface_t_fini(&pub_msg);
+    interface_t_fini(&sub_msg);
 
     std_srvs__srv__Trigger_Request__fini(&srv_req);
     std_srvs__srv__Trigger_Response__fini(&srv_res);
