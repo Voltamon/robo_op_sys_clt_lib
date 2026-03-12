@@ -1,6 +1,6 @@
 #include "rcl_utils/pub.h"
 
-pub_t create_publisher(node_t* node, const char* topic, const type_t* type_support) {
+pub_t create_publisher(node_t* node, const char* topic, const msg_type_t* type_support) {
     pub_t pub = rcl_get_zero_initialized_publisher();
     pub_opts_t pub_opts = rcl_publisher_get_default_options();
 

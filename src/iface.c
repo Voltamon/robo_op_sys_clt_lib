@@ -90,8 +90,34 @@ void* deserialize_interface(interface_t* msg, interface_type_t* iface_type) {
 
 int destroy_interface(interface_type_t* interface_type) {
     if (!interface_type)
-        return 0;
+        return 1;
 
     // free(interface_type->field_map);
-    return 1;
+    return 0;
+}
+
+int success_response(response_t* response, char* message) {
+    if (!response)
+        return 1;
+
+    response->success = true;
+    rosidl_runtime_c__String__assign(&response->message, message);
+    return 0;
+}
+
+int error_response(response_t* response, char* message) {
+    if (!response)
+        return 1;
+
+    response->success = false;
+    rosidl_runtime_c__String__assign(&response->message, message);
+    return 0;
+}
+
+msg_type_t* get_msg_type_support() {
+    return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
+}
+
+srv_type_t* get_srv_type_support() {
+    return ROSIDL_GET_SRV_TYPE_SUPPORT(std_srvs, srv, Trigger);
 }

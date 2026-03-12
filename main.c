@@ -10,11 +10,6 @@
 #include "rcl_utils/spin.h"
 #include "rcl_utils/iface.h"
 
-#include <stdio.h>
-#include <std_msgs/msg/string.h>
-#include <std_srvs/srv/trigger.h>
-#include <rosidl_runtime_c/string_functions.h>
-
 int main(int argc, const char *const *argv) {
     ros_t ros = ros_init(argc, argv);
     if (ros.context.impl == NULL)
@@ -26,8 +21,8 @@ int main(int argc, const char *const *argv) {
         return 1;
     }
 
-    const type_t* msg_type = ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
-    const rosidl_service_type_support_t* srv_type = ROSIDL_GET_SRV_TYPE_SUPPORT(std_srvs, srv, Trigger);
+    const msg_type_t* msg_type = get_msg_type_support();
+    const srv_type_t* srv_type = get_srv_type_support();
 
     pub_t pub = create_publisher(&node, "/count", msg_type);
     if (pub.impl == NULL) {
@@ -96,22 +91,22 @@ int main(int argc, const char *const *argv) {
     };
 
     int count = 0;
-    size_t num_fields = 2;
+    size_t num_fields = 1;
 
     interface_t pub_msg, sub_msg;
     interface_type_t iface_type = create_interface(sizeof(msg_t), fields, num_fields);
     interface_init(&pub_msg);
     interface_init(&sub_msg);
 
-    std_srvs__srv__Trigger_Request srv_req;
-    std_srvs__srv__Trigger_Response srv_res;
-    std_srvs__srv__Trigger_Request__init(&srv_req);
-    std_srvs__srv__Trigger_Response__init(&srv_res);
+    request_t srv_req;
+    response_t srv_res;
+    request_init(&srv_req);
+    response_init(&srv_res);
 
-    std_srvs__srv__Trigger_Request clt_req;
-    std_srvs__srv__Trigger_Response clt_res;
-    std_srvs__srv__Trigger_Request__init(&clt_req);
-    std_srvs__srv__Trigger_Response__init(&clt_res);
+    request_t clt_req;
+    response_t clt_res;
+    request_init(&clt_req);
+    response_init(&clt_res);
 
 
     while(rcl_context_is_valid(&ros.context) && is_running()) {
@@ -155,9 +150,7 @@ int main(int argc, const char *const *argv) {
 
             if (!take_request(&srv, &req_id, &srv_req)) {
                 count = 0;
-                srv_res.success = true;
-
-                rosidl_runtime_c__String__assign(&srv_res.message, "\n< - >");
+                success_response(&srv_res, "\n< - >");
                 send_response(&srv, &req_id, &srv_res);
             }
         }
@@ -175,11 +168,11 @@ int main(int argc, const char *const *argv) {
     interface_fini(&pub_msg);
     interface_fini(&sub_msg);
 
-    std_srvs__srv__Trigger_Request__fini(&srv_req);
-    std_srvs__srv__Trigger_Response__fini(&srv_res);
+    request_fini(&srv_req);
+    response_fini(&srv_res);
 
-    std_srvs__srv__Trigger_Request__fini(&clt_req);
-    std_srvs__srv__Trigger_Response__fini(&clt_res);
+    request_fini(&clt_req);
+    response_fini(&clt_res);
 
     destroy_spinner(&spinner);
     destroy_publisher(&pub, &node);
