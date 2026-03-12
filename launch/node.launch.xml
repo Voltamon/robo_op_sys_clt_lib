@@ -1,0 +1,10 @@
+<launch>
+    <node
+        pkg="robo_op_sys_clt_lib"
+        exec="node"
+        name="base_node"
+        output="screen"
+        emulate_tty="true"
+    >
+    </node>
+</launch>
