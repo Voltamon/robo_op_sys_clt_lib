@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.8)
-project(rcl_utils C CXX)
+project(robo_op_sys_clt_lib C CXX)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic -Wunused-result)
+  add_compile_options(
+      -Wno-unused-result
+      -Wno-return-type
+      -Wno-deprecated-declarations
+      -Wno-discarded-qualifiers
+      -Wno-misleading-indentation
+  )
 endif()
 
 find_package(ament_cmake REQUIRED)
@@ -13,7 +19,7 @@ find_package(rosidl_runtime_c REQUIRED)
 
 include_directories(include)
 
-add_executable(node_impl
+add_executable(node
   main.c
 
   src/ros.c
@@ -31,14 +37,14 @@ add_executable(node_impl
   src/cjson.c
 )
 
-ament_target_dependencies(node_impl
+ament_target_dependencies(node
   rcl
   std_msgs
   std_srvs
   rosidl_runtime_c
 )
 
-install(TARGETS node_impl
+install(TARGETS node
   DESTINATION lib/${PROJECT_NAME}
 )
 

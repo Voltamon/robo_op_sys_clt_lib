@@ -1,4 +1,4 @@
-#include "rcl_utils/iface.h"
+#include "robo_op_sys_clt_lib/iface.h"
 
 interface_type_t create_interface(size_t struct_size, field_map_t* field_map, size_t field_count) {
     interface_type_t interface_type;
@@ -14,12 +14,16 @@ interface_t serialize_interface(void* gen_struct, interface_type_t* interface_ty
     interface_t msg;
     interface_init(&msg);
 
-    if (!gen_struct || !interface_type || interface_type->field_count == 0)
+    if (!gen_struct || !interface_type || interface_type->field_count == 0) {
+        fprintf(stderr, "Interface type is invalid\n");
         return msg;
+    }
 
     cjson* json = cjson_create_object();
-    if (!json)
+    if (!json) {
+        fprintf(stderr, "JSON creation failed for interface\n");
         return msg;
+    }
 
     const char* raw_mem = (const char*)gen_struct;
     for (size_t i = 0; i < interface_type->field_count; i++) {
@@ -49,15 +53,21 @@ interface_t serialize_interface(void* gen_struct, interface_type_t* interface_ty
 }
 
 void* deserialize_interface(interface_t* msg, interface_type_t* iface_type) {
-    if (!msg || !iface_type || !msg->data.data)
+    if (!msg || !iface_type || !msg->data.data) {
+        fprintf(stderr, "Interface is null\n");
         return NULL;
+    }
 
     void* out_struct = calloc(1, iface_type->struct_size);
-    if (!out_struct)
+    if (!out_struct) {
+        fprintf(stderr, "Memory allocation failed for interface\n");
         return NULL;
+    }
 
     cjson* json = cjson_parse(msg->data.data);
     if (!json) {
+        fprintf(stderr, "JSON parse failed for interface\n");
+
         free(out_struct);
         return NULL;
     }
@@ -97,8 +107,10 @@ int destroy_interface(interface_type_t* interface_type) {
 }
 
 int success_response(response_t* response, char* message) {
-    if (!response)
+    if (!response) {
+        fprintf(stderr, "Response is null\n");
         return 1;
+    }
 
     response->success = true;
     rosidl_runtime_c__String__assign(&response->message, message);
@@ -106,8 +118,10 @@ int success_response(response_t* response, char* message) {
 }
 
 int error_response(response_t* response, char* message) {
-    if (!response)
+    if (!response) {
+        fprintf(stderr, "Response is null\n");
         return 1;
+    }
 
     response->success = false;
     rosidl_runtime_c__String__assign(&response->message, message);

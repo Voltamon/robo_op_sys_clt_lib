@@ -1,5 +1,5 @@
-#ifndef RCL_UTILS_ERROR_H
-#define RCL_UTILS_ERROR_H
+#ifndef ROBO_OP_SYS_CLT_LIB_ERROR_H
+#define ROBO_OP_SYS_CLT_LIB_ERROR_H
 
 #include <stdio.h>
 #include <unistd.h>

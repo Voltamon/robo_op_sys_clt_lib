@@ -1,7 +1,7 @@
-#ifndef RCL_UTILS_SPIN_H
-#define RCL_UTILS_SPIN_H
+#ifndef ROBO_OP_SYS_CLT_LIB_SPIN_H
+#define ROBO_OP_SYS_CLT_LIB_SPIN_H
 
-#include "rcl_utils/error.h"
+#include "robo_op_sys_clt_lib/error.h"
 
 #include <stdio.h>
 #include <signal.h>

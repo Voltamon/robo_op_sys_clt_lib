@@ -1,21 +1,21 @@
-#include "rcl_utils/ros.h"
-#include "rcl_utils/node.h"
+#include "robo_op_sys_clt_lib/ros.h"
+#include "robo_op_sys_clt_lib/node.h"
 
-#include "rcl_utils/pub.h"
-#include "rcl_utils/sub.h"
+#include "robo_op_sys_clt_lib/pub.h"
+#include "robo_op_sys_clt_lib/sub.h"
 
-#include "rcl_utils/server.h"
-#include "rcl_utils/client.h"
+#include "robo_op_sys_clt_lib/server.h"
+#include "robo_op_sys_clt_lib/client.h"
 
-#include "rcl_utils/spin.h"
-#include "rcl_utils/iface.h"
+#include "robo_op_sys_clt_lib/spin.h"
+#include "robo_op_sys_clt_lib/iface.h"
 
 int main(int argc, const char *const *argv) {
     ros_t ros = ros_init(argc, argv);
     if (ros.context.impl == NULL)
         return 1;
 
-    rcl_node_t node = create_node("base_node_impl", &ros.context);
+    rcl_node_t node = create_node("base_node", &ros.context);
     if (node.impl == NULL) {
         ros_free(&ros);
         return 1;
@@ -165,6 +165,7 @@ int main(int argc, const char *const *argv) {
         }
     }
 
+    destroy_interface(&iface_type);
     interface_fini(&pub_msg);
     interface_fini(&sub_msg);
 
