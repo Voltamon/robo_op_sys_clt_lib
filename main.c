@@ -108,7 +108,6 @@ int main(int argc, const char *const *argv) {
     request_init(&clt_req);
     response_init(&clt_res);
 
-
     while(rcl_context_is_valid(&ros.context) && is_running()) {
         int status = spin_node(&spinner);
 
